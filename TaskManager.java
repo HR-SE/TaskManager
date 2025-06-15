@@ -28,12 +28,25 @@ public class TaskManager {
        }
        System.out.println("Task ID " + id + " not found.");
    }
+   public void updateTaskStatus(int id, String newStatus) {
+       for (Task task : tasks) {
+           if (task.getId() == id) {
+               System.out.println("Updated task: " + task.getDetails());
+               task.setStatus(newStatus);
+               System.out.println("New status: " + task.getDetails());
+               return;
+           }
+       }
+       System.out.println("Task ID " + id + " not found.");
+   }
    public static void main(String[] args) {
        TaskManager manager = new TaskManager();
        manager.addTask(1, "Learn Java", "In Progress");
        manager.addTask(2, "Solve HackerRank", "Done");
        manager.viewTasks();
-       manager.deleteTask(1);
+       manager.updateTaskStatus(1, "Done");
+       manager.viewTasks();
+       manager.deleteTask(2);
        manager.viewTasks();
    }
 }

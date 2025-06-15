@@ -13,4 +13,7 @@ public  class Task {
     public String getDetails() {
         return "ID: " + id + ", Title: " + title + ", Status: " + status ;
     }
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
