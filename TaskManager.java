@@ -7,8 +7,24 @@ import java.util.Scanner;
 public class TaskManager {
    private ArrayList<Task> tasks = new ArrayList<>();
    private Scanner scanner = new Scanner(System.in);
+   public boolean isTaskIdExists(int id) { //New validation method
+       for (Task task : tasks) {
+           if (task.getId() == id) {
+               return true;
+           }
+       }
+       return false;
+   }
 
    public void addTask(int id, String title, String status) {
+       if (isTaskIdExists(id)) {
+           System.out.println("Error: Task ID " + id + " already exists.");
+           return;
+       }
+       if (title.trim().isEmpty()){
+           System.out.println("Error: Task title cannot be empty.");
+           return;
+       }
        tasks.add(new Task(id, title, status));
        System.out.println("Task added: " + title);
    }
@@ -51,13 +67,27 @@ public class TaskManager {
            System.out.println("4. Update Task Status");
            System.out.println("5. Exit");
            System.out.print("Choose an option: ");
-           int choice = scanner.nextInt();
-           scanner.nextLine(); //Clear buffer
+           int choice;
+           try {
+               choice = scanner.nextInt();
+               scanner.nextLine(); //Clear buffer
+           } catch (Exception e) {
+               System.out.println("Error: Please enter a valid number.");
+               scanner.nextLine(); // Clear invalid input
+               continue;
+           }
            switch (choice) {
                case 1:
                    System.out.print("Enter task ID: ");
-                   int id = scanner.nextInt();
-                   scanner.nextLine();
+                   int id; //note2self: variable declared out of try block so it can be used outside try block in next lines
+                   try {
+                       id = scanner.nextInt();
+                       scanner.nextLine();
+                   } catch (Exception e) {
+                       System.out.println("Error: Invalid ID.");
+                       scanner.nextLine();
+                       break;
+                   }
                    System.out.print("Enter task title: ");
                    String title = scanner.nextLine();
                    System.out.print("Enter Task status: ");
@@ -69,17 +99,27 @@ public class TaskManager {
                    break;
                case 3:
                    System.out.print("Enter task ID to delete: ");
-                   int deleteId = scanner.nextInt();
-                   deleteTask(deleteId);
+                   try {
+                       int deleteId = scanner.nextInt();
+                       deleteTask(deleteId);
+                   } catch (Exception e) {
+                       System.out.println("Error: Invalid ID.");
+                       scanner.nextLine();
+                   }
                    break;
                case 4:
                    System.out.print("Enter task ID to update: ");
-                   int updateId= scanner.nextInt();
-                   scanner.nextLine();
-                   System.out.print("Enter new status: ");
-                   String newStatus = scanner.nextLine();
-                   updateTaskStatus(updateId, newStatus);
-                   break;
+                   try {
+                       int updateId = scanner.nextInt();
+                       scanner.nextLine();
+                       System.out.print("Enter new status: ");
+                       String newStatus = scanner.nextLine();
+                       updateTaskStatus(updateId, newStatus);
+                   } catch (Exception e) {
+                       System.out.println("Error: invalid ID.");
+                       scanner.nextLine();
+                       }
+                       break;
                case 5:
                    System.out.println("Exiting Task Manager.");
                    return;
