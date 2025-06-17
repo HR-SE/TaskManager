@@ -5,3 +5,4 @@ Features:
 - View all tasks.
 - Delete tasks by ID.
 - Update task status (e.g., In Progress to Done).
+- Interactive console menu for user input.
