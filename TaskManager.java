@@ -16,7 +16,7 @@ public class TaskManager {
        return false;
    }
 
-   public void addTask(int id, String title, String status) {
+   public void addTask(int id, String title, String status, String category) {
        if (isTaskIdExists(id)) {
            System.out.println("Error: Task ID " + id + " already exists.");
            return;
@@ -25,7 +25,7 @@ public class TaskManager {
            System.out.println("Error: Task title cannot be empty.");
            return;
        }
-       tasks.add(new Task(id, title, status));
+       tasks.add(new Task(id, title, status, category));
        System.out.println("Task added: " + title);
    }
    public void viewTasks() {
@@ -92,7 +92,9 @@ public class TaskManager {
                    String title = scanner.nextLine();
                    System.out.print("Enter Task status: ");
                    String status = scanner.nextLine();
-                   addTask(id, title, status);
+                   System.out.print("Enter task category (e.g., Work, Personal): ");
+                   String category = scanner.nextLine();
+                   addTask(id, title, status, category);
                    break;
                case 2:
                    viewTasks();
@@ -130,13 +132,6 @@ public class TaskManager {
     }
    public static void main(String[] args) {
        TaskManager manager = new TaskManager();
-//       manager.addTask(1, "Learn Java", "In Progress");
-//       manager.addTask(2, "Solve HackerRank", "Done");
-//       manager.viewTasks();
-//       manager.updateTaskStatus(1, "Done");
-//       manager.viewTasks();
-//       manager.deleteTask(2);
-//       manager.viewTasks();   //old code
        manager.run(); //starts interactive menu
    }
 }
