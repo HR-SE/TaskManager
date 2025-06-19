@@ -37,6 +37,18 @@ public class TaskManager {
            }
        }
    }
+   public void viewTasksByCategory(String category) {
+       boolean found = false;
+       for (Task task : tasks) {
+           if (task.getCategory().equalsIgnoreCase(category)) {
+               System.out.println(task.getDetails());
+               found = true;
+           }
+       }
+       if (!found) {
+           System.out.println("No tasks found in category: " + category);
+       }
+   }
    public void deleteTask(int id) {
        for (int i = 0; i < tasks.size(); i++) {
            if (tasks.get(i).getId() == id) {
@@ -62,10 +74,11 @@ public class TaskManager {
        while (true) {
            System.out.println("\nTask Manager Menu:");
            System.out.println("1. Add Task");
-           System.out.println("2. View Tasks");
-           System.out.println("3. Delete Task");
-           System.out.println("4. Update Task Status");
-           System.out.println("5. Exit");
+           System.out.println("2. View All Tasks");
+           System.out.println("3. View Tasks by Category");
+           System.out.println("4. Delete Task");
+           System.out.println("5. Update Task Status");
+           System.out.println("6. Exit");
            System.out.print("Choose an option: ");
            int choice;
            try {
@@ -100,6 +113,11 @@ public class TaskManager {
                    viewTasks();
                    break;
                case 3:
+                   System.out.println("Enter category to view (e.g., Work, Personal): ");
+                   String viewCategory = scanner.nextLine();
+                   viewTasksByCategory(viewCategory);
+                   break;
+               case 4:
                    System.out.print("Enter task ID to delete: ");
                    try {
                        int deleteId = scanner.nextInt();
@@ -109,7 +127,7 @@ public class TaskManager {
                        scanner.nextLine();
                    }
                    break;
-               case 4:
+               case 5:
                    System.out.print("Enter task ID to update: ");
                    try {
                        int updateId = scanner.nextInt();
@@ -122,7 +140,7 @@ public class TaskManager {
                        scanner.nextLine();
                        }
                        break;
-               case 5:
+               case 6:
                    System.out.println("Exiting Task Manager.");
                    return;
                default:
