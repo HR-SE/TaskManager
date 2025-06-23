@@ -1,4 +1,4 @@
-public  class Task {
+public class Task implements Comparable<Task> {
     private int id;
     private String title;
     private String status;
@@ -23,5 +23,20 @@ public  class Task {
     }
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @Override
+    public int compareTo(Task other) {
+        String[] priorityOrder = {"High", "Medium", "Low"};
+        int thisIndex = indexOf(priorityOrder, this.priority);
+        int otherIndex = indexOf(priorityOrder, other.priority);
+        return Integer.compare(thisIndex, otherIndex);
+    }
+
+    private int indexOf(String[] array, String value) {
+        for (int i = 0; i < array.length; i++) {
+            if (array[i].equalsIgnoreCase(value)) return i;
+        }
+        return array.length; //Default to lowest if not found
     }
 }

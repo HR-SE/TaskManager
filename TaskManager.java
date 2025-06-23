@@ -2,6 +2,8 @@
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class TaskManager {
@@ -32,6 +34,7 @@ public class TaskManager {
        if (tasks.isEmpty()) {
            System.out.println("No tasks available.");
        } else {
+           Collections.sort(tasks);
            for (Task task : tasks) {
                System.out.println(task.getDetails());
            }
