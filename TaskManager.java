@@ -2,9 +2,10 @@
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Scanner;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class TaskManager {
    private ArrayList<Task> tasks = new ArrayList<>();
@@ -64,6 +65,22 @@ public class TaskManager {
            System.out.println("No tasks found in priority: " + priority);
        }
    }
+
+   public void exportTasks(String filename) {
+       try (FileWriter writer = new FileWriter(filename)) {
+           if (tasks.isEmpty()) {
+               writer.write("No tasks to export.");
+           } else {
+               Collections.sort(tasks);
+               for (Task task : tasks) {
+                   writer.write(task.getDetails() + "\n");
+               }
+           }
+           System.out.println("Tasks exported to " + filename);
+       } catch (IOException e) {
+           System.out.println("Error exporting tasks: " + e.getMessage());
+       }
+   }
    public void deleteTask(int id) {
        for (int i = 0; i < tasks.size(); i++) {
            if (tasks.get(i).getId() == id) {
@@ -92,9 +109,10 @@ public class TaskManager {
            System.out.println("2. View All Tasks");
            System.out.println("3. View Tasks by Category");
            System.out.println("4. View Tasks by Priority");
-           System.out.println("5. Delete Task");
-           System.out.println("6. Update Task Status");
-           System.out.println("7. Exit");
+           System.out.println("5. Export Tasks");
+           System.out.println("6. Delete Task");
+           System.out.println("7. Update Task Status");
+           System.out.println("8. Exit");
            System.out.print("Choose an option: ");
            int choice;
            try {
@@ -141,6 +159,11 @@ public class TaskManager {
                    viewTasksByPriority(viewPriority);
                    break;
                case 5:
+                   System.out.println("Enter filename to export (e.g., tasks.ext): ");
+                   String filename = scanner.nextLine();
+                   exportTasks(filename);
+                   break;
+               case 6:
                    System.out.print("Enter task ID to delete: ");
                    try {
                        int deleteId = scanner.nextInt();
@@ -150,7 +173,7 @@ public class TaskManager {
                        scanner.nextLine();
                    }
                    break;
-               case 6:
+               case 7:
                    System.out.print("Enter task ID to update: ");
                    try {
                        int updateId = scanner.nextInt();
@@ -163,7 +186,7 @@ public class TaskManager {
                        scanner.nextLine();
                        }
                        break;
-               case 7:
+               case 8:
                    System.out.println("Exiting Task Manager.");
                    return;
                default:
