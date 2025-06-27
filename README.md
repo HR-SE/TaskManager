@@ -5,4 +5,5 @@ Features:
 - View all tasks, filter by categories, filter by priorities and Sorted by priority.
 - Delete tasks by ID.
 - Update task status (e.g., In Progress to Done).
+- Export tasks feature.
 - Interactive console menu with input Validation for user input.
