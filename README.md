@@ -6,4 +6,5 @@ Features:
 - Delete tasks by ID.
 - Update task status (e.g., In Progress to Done).
 - Export tasks feature.
+- Import tasks feature with import parsing for exported format.
 - Interactive console menu with input Validation for user input.
