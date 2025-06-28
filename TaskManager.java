@@ -1,6 +1,7 @@
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -81,6 +82,38 @@ public class TaskManager {
            System.out.println("Error exporting tasks: " + e.getMessage());
        }
    }
+
+   public void importTasks(String filename) {
+       try {File file = new File(filename); // Use File object with provided name
+       if (!file.exists()) {
+           System.out.println("Error: File " + filename + " not found. Place it in the project root or provide full path.");
+           return;
+       }
+       try (Scanner fileScanner = new Scanner(file))
+        {
+           while (fileScanner.hasNextLine()) {
+               String line = fileScanner.nextLine().trim();// parse line into id, title, status, category, priority
+               if (line.startsWith("ID: ")) {
+                   String[] parts = line.split(", ");
+                   if (parts.length == 5) {
+                       String idPart = parts[0].replace("ID: ", "").trim();
+                       int id = Integer.parseInt(idPart);
+                       String title = parts[1].replace("Title: ", "").trim();
+                       String status = parts[2].replace("Status: ", "").trim();
+                       String category = parts[3].replace("Category: ", "").trim();
+                       String priority = parts[4].replace("Priority: ", "").trim();
+                       addTask(id, title, status, category, priority);
+                   } else {
+                       System.out.println("Skipping invalid line: " + line);
+                   }
+               }
+           }
+           System.out.println("Task imported from " + filename);}
+       } catch (IOException e) {
+           System.out.println("Error importing tasks: " + e.getMessage());
+       }
+   }
+
    public void deleteTask(int id) {
        for (int i = 0; i < tasks.size(); i++) {
            if (tasks.get(i).getId() == id) {
@@ -110,9 +143,10 @@ public class TaskManager {
            System.out.println("3. View Tasks by Category");
            System.out.println("4. View Tasks by Priority");
            System.out.println("5. Export Tasks");
-           System.out.println("6. Delete Task");
-           System.out.println("7. Update Task Status");
-           System.out.println("8. Exit");
+           System.out.println("6. Import Tasks");
+           System.out.println("7. Delete Task");
+           System.out.println("8. Update Task Status");
+           System.out.println("9. Exit");
            System.out.print("Choose an option: ");
            int choice;
            try {
@@ -164,6 +198,12 @@ public class TaskManager {
                    exportTasks(filename);
                    break;
                case 6:
+                   System.out.println("Enter filename to import (e.g., tasks.txt) ");
+                   String file = scanner.nextLine();
+                   //file += ".txt";
+                   importTasks(file);
+                   break;
+               case 7:
                    System.out.print("Enter task ID to delete: ");
                    try {
                        int deleteId = scanner.nextInt();
@@ -173,7 +213,7 @@ public class TaskManager {
                        scanner.nextLine();
                    }
                    break;
-               case 7:
+               case 8:
                    System.out.print("Enter task ID to update: ");
                    try {
                        int updateId = scanner.nextInt();
@@ -186,7 +226,7 @@ public class TaskManager {
                        scanner.nextLine();
                        }
                        break;
-               case 8:
+               case 9:
                    System.out.println("Exiting Task Manager.");
                    return;
                default:
